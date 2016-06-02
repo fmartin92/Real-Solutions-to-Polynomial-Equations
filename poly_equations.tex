@@ -1,0 +1,195 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{mathpazo}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{listings}
+\usepackage[colorlinks=true, pagebackref=true]{hyperref}
+\usepackage[alphabetic]{amsrefs}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{titlesec} %reasonable chapter headings
+\usepackage{stmaryrd} %double brackets
+\usepackage{tikz}
+\usepackage[toc,page]{appendix}
+%\usepackage{showlabels}
+\usepackage{geometry}
+\usepackage[margin=1.2cm]{caption}
+\usepackage{leading}
+\leading{14.5pt}
+
+\lstset{language=Python,
+backgroundcolor=\color{gray!20},
+numberstyle=\footnotesize,
+breaklines=true,
+basicstyle=\footnotesize,
+keywordstyle=\bfseries\color{blue},
+commentstyle=\itshape\color{purple},
+%identifierstyle=\color{blue},
+stringstyle=\color{orange}}
+\usetikzlibrary{arrows,positioning,through,decorations.pathmorphing, decorations.markings}
+
+\usepackage{chngcntr}
+\counterwithout{equation}{section} %this fixes equation numbering
+
+%\titleformat{\chapter}[display]
+%  {\normalfont\bfseries}{}{0pt}{\Huge} %this eliminates the 'Chapter n' heading
+
+\hypersetup{linkcolor=teal, citecolor=teal}
+
+\def\noteson{%
+\gdef\note##1{\marginpar[##1]{##1}}}
+\gdef\notesoff{\gdef\note##1{}}
+\notesoff
+
+\renewcommand\bibname{References}
+\renewcommand*{\proofname}{Proof}
+
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+
+\newcommand{\kQ}{k\langle Q\rangle}
+\newcommand{\KQ}{k\langle\!\langle Q\rangle\!\rangle}
+\newcommand{\cyc}{\mathrm{cyc}}
+\newcommand{\cf}{\mathrm{cf}}
+\newcommand{\FA}{k\langle x_1,\dots,x_n\rangle}
+\newcommand{\mon}{\langle X\rangle}
+\newcommand{\irr}{k\langle X\rangle_{\mathrm{irr}}}
+\newcommand{\llangle}{\langle\!\langle}
+\newcommand{\rrangle}{\rangle\!\rangle}
+\newcommand{\cinf}{C^\infty}
+\newcommand{\cotg}{T^*M}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\XX}{\mathfrak{X}}
+\newcommand{\fkg}{\mathfrak{g}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ddt}{\frac{\dd}{\dd t}}
+\newcommand{\dds}{\frac{\dd}{\dd s}}
+\newcommand{\pardev}[2]{\frac{\partial #1}{\partial #2}}
+
+
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\gr}{gr}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\sv}{signvar}
+
+
+\newcommand\claim[2][.8]{%
+  \begin{minipage}{#1\displaywidth}%
+  \itshape
+  #2
+  \end{minipage}%
+}
+
+\theoremstyle{plain}
+\newtheorem{prop}{Proposición}[section]
+\newtheorem{lemma}[prop]{Lemma}
+\newtheorem{thm}[prop]{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{defn}[prop]{Definición}
+\newtheorem{exmp}[prop]{Ejemplo}
+\newtheorem{heur}[prop]{Heurística}
+\newtheorem{obs}[prop]{Observación}
+\newtheorem{coro}[prop]{Corollary}
+\newtheorem{rem}[prop]{Remark}
+
+\title{Real Solutions to Polynomial Equations}
+\date{}
+
+\begin{document}
+\maketitle{}
+
+\section{01/06 -- Basic results}
+We will be interested in estimating the number of real solutions to systems of polynomial equations. We will start off by studying well-known elementary methods for the simplest case: one polynomial with real coefficients in a single variable. We know that such a polynomial may have few real roots even if the degree is high. For example, the polynomial $x^d-1$ has at most two real roots regardless of the value of $d$. Let us start by studying the most basic upper bound:
+
+\begin{thm}[Descartes' rule of signs -- 1637] Let $f=\sum_{i=0}^d c_i x^i\in \RR[x]$ and denote the number of positive real roots of $f$ counted with multiplicity as $n(f)$. Then 
+\[n(f)\leq \sv(c_0,c_1,\dots,c_d),\]
+where $\sv(c_0,c_1,\dots,c_d)$ stands for the number of sign changes between consecutive non-zero coefficients. Moreover, the difference between $n(f)$ and $\sv(c_0,c_1,\dots,c_d)$ is even.
+\end{thm}
+
+Notice that it suffices to estimate the number of positive roots of $f$ only, since the number of negative roots of $f$ is the number of positive roots of $g$, where $g(x)=f(-x)$. Therefore, the number of real roots of $f$, which we will denote as $N(f)$, is bounded by
+\[1+\sv(c_0,\dots,c_d)+\sv(c_0,-c_1,\dots,(-1)^dc_d).\]
+One thus obtains the following bound:
+\[N(f)\leq 1+2d,\]
+which is obviously very rough. A finer bound is given by
+\[N(f)\leq 1+2s,\]
+where $s+1$ is the number of non-zero coefficients of $f$. A nice corollary of this bound is that follows that sparse polynomials have few real roots -- in fact, if $s<(d-1)/2$ then there is at least one non-real root. In fact, we will see that this bound is optimal, in the sense that for any given $s$ there is a polynomial $f_s$ with $s$ non-zero coefficients for which the bound is sharp.
+
+In order to prove the theorem, we will start with a general lemma first:
+
+\begin{lemma} For any differentiable function $f:I\subseteq \RR\to\RR$ with a finite number of roots in $I$, we have
+\[n(f) \leq n(f')+1,\]
+where $n(f)$ is the number of roots of $f$ in $I$ counted with multiplicity.
+\end{lemma}
+\begin{proof} Let $r_1,\dots,r_n$ be the different roots of $f$, with multiplicites $m_1,\dots, m_n$. Then $f'$ has $r_i$ as a root of multiplicity $m_i -1$. Moreover, $f'$ has at least one root between any two roots of $f$. Thus, we obtain
+\[n(f')\geq \sum_{i=1}^n (m_i-1)+n-1 = \sum_{i=1}^n m_i-n +n-1 = n(f)-1,\]
+as wanted.
+\end{proof}
+
+We now proceed with the proof of Descartes' rule of signs:
+
+\begin{proof} Let $f(x)=\sum_{i=0}^d c_ix^i$. We will suppose without loss of generality that $c_0c_d\neq 0$, since otherwise we can divide by a factor of the form $x^k$ without altering the number of positive roots.
+
+Suppose then that $c_0c_d>0$. Then, $\sv(c_0,\dots,c_d)$ is even, since both of its endpoints have the same sign. Moreover, $f(0)\cdot\lim_{x\to\infty} f(x)>0$, which means that $f$ has the same sign at zero and at infinity. Now, $f$ does not change sign near a root of even multiplicity, so it follows that $f$ has an even number of roots with odd multiplicity. This in turn implies that $n(f)$ is even, and so the difference between $n(f)$ and $\sv(c_0,\dots,c_d)$ is even too. If $c_0c_d<0$ reasoning analogously we conclude that both numbers are odd, so their difference is even, which proves the last statement of the theorem.
+
+We will now prove the first statement by induction on $d$. By our previous lemma, we know that $n(f)\leq n(f')+1$, and by inductive hypothesis we have that $n(f')\leq \sv(c_1,\dots, c_d)$.
+
+We now consider two different cases. If $\sv(c_0,\dots, c_d) = \sv(c_1,\dots, c_d)+1$, we are done since then $n(f)\leq n(f')+1\leq \sv(c_0,\dots, c_d)$ as wanted. Otherwise, $\sv(c_0,\dots, c_d) = \sv(c_1,\dots, c_d)$. This tells us that if $f(x)=c_0+c_ix^i+\dots+c_dx^d$, where we only write non-zero coefficients, then $c_0c_i\geq 0$. Assume without loss of generality that both $c_0$ and $c_i$ are non-negative (the other case is analogous). In this case we have that $f(0)\geq 0$ and that $f$ is increasing in some interval $(0,\varepsilon)$ not containing any root of $f$. This implies that $f'$ has a positive root smaller than the smallest positive root of $f$. Let $r_1<\dots<r_n$ be the positive roots of $f$. Then, by our previous lemma we know that $f'$ has at least $n(f)-1$ roots (counted with multiplicity) in $(r_1-\delta,\dots,r_n+\delta)$ for some $\delta>0$ such that $\varepsilon < r_1-\delta$, and at least one in $(0,\varepsilon)$. Therefore 
+\[n(f)\leq n(f')\leq \sv(c_1,\dots,c_d)=\sv(c_0,\dots,c_d)\]
+as wanted.
+\end{proof}
+
+\begin{coro} If $\sv(c_0,\dots,c_d)$ is odd, then $f$ has at least one real root.
+\end{coro}
+\begin{proof} Since the difference between $n(f)$ and $\sv(c_0,\dots,c_d)$ is even, it follows that $n(f)$ is odd, and in particular non-zero.
+\end{proof}
+
+We will now provide some generalizations of this theorem. Given a sequence $F=(f_0,\dots,f_k)$ of real polynomials and some scalar $a\in\overline{\RR}$, we define
+\[\sv(F,a)=\sv(f_0(a),\dots,f_k(a)),\]
+where $f(\pm\infty)$ stands for $\lim_{x\to\pm\infty} f(x)$. For $f\in\RR[x]$ of degree $d$, we will denote
+\[\delta f=(f,f',\dots,f^{(d)})\]
+the sequence of consecutive derivatives of $f$.
+\begin{thm}[Budan--Fourier] Let $f=\sum_{i=0}^d c_i x^i\in \RR[x]$, $a,b\in\overline\RR$ and denote the number of positive real roots of $f$ counted with multiplicity in $(a,b]$ as $n_{(a,b]}(f)$. Then 
+\[n_{(a,b]}(f)\leq \sv(\delta f,a)-\sv(\delta f,b).\]
+Moreover, the difference between both sides of the inequality is even.
+\end{thm}
+\begin{rem} When $a=0$, \[\sv(\delta f,a)=\sv(f(0),f'(0),\dots,f^{(d)}(0))=\sv(c_0,\dots, c_d).\]
+Moreover, it is easy to see that if $b=+\infty$ then $\sv(\delta f,b)=0$, and so we conclude that Budan-Fourier contains Descartes' rule of signs as a particular case.
+\end{rem}
+
+We now give a sketch of the proof:
+\begin{proof} The quantity $\sv(\delta f,t)$ can change only at a root $t$ of some of the polynomials in $\delta f$. Let $r$ be a root of $f$ of multiplicity $m$; at $t=r$, $n_{(a,t]}(f)$ increases by $m$. Let $\varepsilon>0$ be such that $(r-\varepsilon,r+\varepsilon)$ does not contain roots different than $r$ of any polynomial in $\delta f$. Then, we have that
+\[\sv(\delta f,r)=\sv(\delta f,r+\varepsilon)\]
+and
+\[\sv(\delta f,r-\varepsilon)\geq\sv(\delta f,r)+m,\]
+and by a similar reasoning as in the proof of Descartes' rule of signs, it follows that the difference between both sides is even. We arrive at the result by summing up over all of the roots of $f$.
+\end{proof}
+
+We will now state (without proof) one more basic result. Given $f\in\RR[x]$ of degree $d$, consider the sequence $F=(f_0,f_1,\dots,f_k)$ where $f_0=f$, $f_1=f'$ and $f_i=-r(f_{i-2},f_{i-1})$ where $r$ stands for the remainder of the Euclidean algorithm. We stop the sequence at the first $k$ such that $f_{k+1}=0$.
+\begin{thm}[Sturm] Let $f=\sum_{i=0}^d c_i x^i\in \RR[x]$, $a,b\in\overline\RR$. Then
+\[n_{(a,b)}(f) = \sv(F,a)-\sv(F,b).\]
+\end{thm}
+
+We now turn to the simplest case of combinatorial patchworking, a technique developed in the early 1980s to produce real plane algebraic curves with prescribed topologies, in order to prove that the Descartes bound is sharp.
+
+Let us write $f(x)=\sum_{i=0}^d c_ix^i=\sum_{j=1}^s d_j x^{a_j}$, where all $d_j\neq 0$ and $a_1<\dots<a_s$. Descartes' rule of signs implies that $n(f)\leq \sv(d_1,\dots,d_s)$. Consider the parameterized family of polynomials
+\[f_t(x)=\sum_{j=1}^s d_j t^{h_j} x^{a_j},\]
+where $h_1,\dots, h_s\in \NN$. We set $t>0$, so that the sign variations of $f$ and $f_t$ match.
+\begin{thm}[Viro] Suppose we pick $h_1,\dots,h_n$ so that the points $(a_1,h_1),\dots(a_n,h_n)\in\NN^2$ are vertices of their convex hull, and moreover, are found in its \emph{lower part} (that is, the edges of the convex hull such that their normal vectors have negative vertical component). Then, there exists $t_0>0$ such that for any fixed $t\in (0,t_0)$,
+\[n(f_t)=\sv(d_1t^{h_1},\dots,d_st^{h_s})=\sv(d_1,\dots, d_s).\]
+In particular, for any sequence of coefficients, there is a polynomial with the same sign sequence such that the Descartes bound is sharp.
+\end{thm}
+\end{document}
