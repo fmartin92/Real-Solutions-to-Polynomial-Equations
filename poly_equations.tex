@@ -84,6 +84,7 @@ stringstyle=\color{orange}}
 \DeclareMathOperator{\SL}{SL}
 \DeclareMathOperator{\Diff}{Diff}
 \DeclareMathOperator{\sv}{signvar}
+\DeclareMathOperator{\Vol}{Vol}
 
 
 \newcommand\claim[2][.8]{%
@@ -94,7 +95,7 @@ stringstyle=\color{orange}}
 }
 
 \theoremstyle{plain}
-\newtheorem{prop}{Proposición}[section]
+\newtheorem{prop}{Proposition}[section]
 \newtheorem{lemma}[prop]{Lemma}
 \newtheorem{thm}[prop]{Theorem}
 
@@ -105,6 +106,7 @@ stringstyle=\color{orange}}
 \newtheorem{obs}[prop]{Observación}
 \newtheorem{coro}[prop]{Corollary}
 \newtheorem{rem}[prop]{Remark}
+\newtheorem{ex}[prop]{Exercise}
 
 \title{Real Solutions to Polynomial Equations}
 \date{}
@@ -126,7 +128,7 @@ One thus obtains the following bound:
 \[N(f)\leq 1+2d,\]
 which is obviously very rough. A finer bound is given by
 \[N(f)\leq 1+2s,\]
-where $s+1$ is the number of non-zero coefficients of $f$. A nice corollary of this bound is that follows that sparse polynomials have few real roots -- in fact, if $s<(d-1)/2$ then there is at least one non-real root. In fact, we will see that this bound is optimal, in the sense that for any given $s$ there is a polynomial $f_s$ with $s$ non-zero coefficients for which the bound is sharp.
+where $s+1$ is the number of non-zero coefficients of $f$. A nice corollary of this bound is that sparse polynomials have few real roots -- in fact, if $s<(d-1)/2$ then there is at least one non-real root. We will see that this bound is optimal in a particular sense that will be explained later.
 
 In order to prove the theorem, we will start with a general lemma first:
 
@@ -134,7 +136,7 @@ In order to prove the theorem, we will start with a general lemma first:
 \[n(f) \leq n(f')+1,\]
 where $n(f)$ is the number of roots of $f$ in $I$ counted with multiplicity.
 \end{lemma}
-\begin{proof} Let $r_1,\dots,r_n$ be the different roots of $f$, with multiplicites $m_1,\dots, m_n$. Then $f'$ has $r_i$ as a root of multiplicity $m_i -1$. Moreover, $f'$ has at least one root between any two roots of $f$. Thus, we obtain
+\begin{proof} Let $r_1,\dots,r_n$ be the different roots of $f$, with multiplicities $m_1,\dots, m_n$. Then $f'$ has $r_i$ as a root of multiplicity $m_i -1$. Moreover, $f'$ has at least one root between any two roots of $f$. Thus, we obtain
 \[n(f')\geq \sum_{i=1}^n (m_i-1)+n-1 = \sum_{i=1}^n m_i-n +n-1 = n(f)-1,\]
 as wanted.
 \end{proof}
@@ -178,7 +180,7 @@ and
 and by a similar reasoning as in the proof of Descartes' rule of signs, it follows that the difference between both sides is even. We arrive at the result by summing up over all of the roots of $f$.
 \end{proof}
 
-We will now state (without proof) one more basic result. Given $f\in\RR[x]$ of degree $d$, consider the sequence $F=(f_0,f_1,\dots,f_k)$ where $f_0=f$, $f_1=f'$ and $f_i=-r(f_{i-2},f_{i-1})$ where $r$ stands for the remainder of the Euclidean algorithm. We stop the sequence at the first $k$ such that $f_{k+1}=0$.
+Let us now state (without proof) one more basic result. Given $f\in\RR[x]$ of degree $d$, consider the sequence $F=(f_0,f_1,\dots,f_k)$ where $f_0=f$, $f_1=f'$ and $f_i=-r(f_{i-2},f_{i-1})$ where $r$ stands for the remainder of the Euclidean algorithm. We stop the sequence at the first $k$ such that $f_{k+1}=0$.
 \begin{thm}[Sturm] Let $f=\sum_{i=0}^d c_i x^i\in \RR[x]$, $a,b\in\overline\RR$. Then
 \[n_{(a,b)}(f) = \sv(F,a)-\sv(F,b).\]
 \end{thm}
@@ -188,8 +190,85 @@ We now turn to the simplest case of combinatorial patchworking, a technique deve
 Let us write $f(x)=\sum_{i=0}^d c_ix^i=\sum_{j=1}^s d_j x^{a_j}$, where all $d_j\neq 0$ and $a_1<\dots<a_s$. Descartes' rule of signs implies that $n(f)\leq \sv(d_1,\dots,d_s)$. Consider the parameterized family of polynomials
 \[f_t(x)=\sum_{j=1}^s d_j t^{h_j} x^{a_j},\]
 where $h_1,\dots, h_s\in \NN$. We set $t>0$, so that the sign variations of $f$ and $f_t$ match.
-\begin{thm}[Viro] Suppose we pick $h_1,\dots,h_n$ so that the points $(a_1,h_1),\dots(a_n,h_n)\in\NN^2$ are vertices of their convex hull, and moreover, are found in its \emph{lower part} (that is, the edges of the convex hull such that their normal vectors have negative vertical component). Then, there exists $t_0>0$ such that for any fixed $t\in (0,t_0)$,
+\begin{thm}[Viro] Suppose we pick $h_1,\dots,h_n$ so that the points $(a_1,h_1),\dots(a_n,h_n)\in\NN^2$ are vertices of their convex hull, and moreover, are found in its \emph{lower hull} (that is, the edges of the convex hull such that their normal vectors have negative vertical component). Then, there exists $t_0>0$ such that for any fixed $t\in (0,t_0)$,
 \[n(f_t)=\sv(d_1t^{h_1},\dots,d_st^{h_s})=\sv(d_1,\dots, d_s).\]
 In particular, for any sequence of coefficients, there is a polynomial with the same sign sequence such that the Descartes bound is sharp.
 \end{thm}
+
+\section{03/06}
+
+Let us start by proving Viro's theorem:
+
+\begin{proof} Let $E_i$ be the line segment $[(a_i,h_i),(a_{i+1},h_{i+1})]$. The segment $E_i$ is the graph of an affine function $y\mapsto \alpha_i y+\beta_i$ on $[a_i,a_{i+1}]$. Then
+\[\frac{f_t(xt^{-\alpha_i})}{t^{\beta_i}}= \sum_{j=1}^s d_j t^{h_j-\alpha_ia_j-\beta_i} x^a_j=d_ix^{a_i}+d_{i+1}x^{a_{i+1}}+p(x,t)\]
+for some rational function $p$ in which $t$ appears with positive exponent in all of its terms. This happens since points of the form $(a_j,h_j)$ are vertices of the lower hull, then, $h_j-\alpha_i a_j-\beta_i > 0$ for all $j\neq i,i+1$, and so a positive power of $t$ appears in all these terms.
+
+Let us call $g_i(x) = d_ix^{a_i}+d_{i+1}x^{a_{i+1}}$. By Descartes' rule of signs, we know that $g_i$ has at most one positive, simple root $\rho_i$, and this happens iff $x^{a_{i+1}-a_i} = -d_i/d_{i+1}$ (recall that no $d_j$ vanishes). This obviously happens iff $d_i$ and $d_{i+1}$ have different signs.  If $d_i$ and $d_{i+1}$ have different signs, the existence of the positive root $\rho_i$ of $g_i$ proves the existence of a real, positive root $t^{-\alpha_i}\rho_{i,t}$ of $f_t$ for small enough $t$, since $f_t$ is $g_i$ modulo a small perturbation $p$ and simple roots are stable. Repeating this argument for each $g_i$ we obtain a total of $\sv(d_1,\dots,d_s)$ simple roots.
+
+Consider now a compact set $K$ in $(0,+\infty)$ such that $K$ contains all of the roots $\rho_{i,t}$ and $\rho_i$: for some suitably small $t$, the compact sets $t^{-\alpha_1}K,\dots, t^{-\alpha_s}K$ are disjoint, and since $t^{-\alpha_i}\rho_{i,t}\in t^{-\alpha_i}K$, we know that all of our roots $t^{-\alpha_i}\rho_{i,t}$ of $f_t$ are different. We have thus obtained $\sv(d_1,\dots,d_s)$ roots of $f_t$ and by Descartes' rule of signs we know that there are no more than this.
+\end{proof}
+
+\begin{rem} If $f(x)=\sum_{i=0}^d c_ix^i$ with $c_d\neq 0$, then if $f$ has $d$ positive roots then all of the coefficients $c_i$ are non-zero, by Descartes' bound.
+\end{rem}
+
+\begin{ex} What can one say if $f$ has $d$ real (not necessarily positive) roots?
+\end{ex}
+
+Consider now sufficiently differentiable functions $h_1,\dots,h_k:I\subseteq\RR\to\RR$. Their \emph{Wronskian} is defined as
+\[W(f_1,\dots,f_k)=\mathrm{det}\begin{bmatrix} f_1&f_2&\dots&f_k\\f_1'&f_2'&\dots&f_k'\\ \vdots&\vdots&\ddots&\vdots\\ f_1^{(k-1)}&f_2^{(k-1)}&\dots&f_k^{(k-1)}\end{bmatrix}\]
+
+Obviously, the Wronskian of a set of linearly dependent functions vanishes identically on $I$, and the converse holds provided the functions are analytic. This may not be true without analitycity: for instance, consider the functions $x^2$ and $x|x|$ on $(-1,1)$.
+
+\begin{prop} Let $f_1,\dots, f_k,g:I\subseteq\RR\to\RR$ be sufficiently differentiable. Then:
+\begin{enumerate}
+\item $W(gh_1,\dots,gh_k)=g^k\, W(h_1,\dots, h_k)$.
+\item Assuming $h_1$ does not vanish on I, then
+\[W(h_1,\dots,h_k)=h_1^k \,W\left(\left(\frac{h_2}{h_1}\right)',\dots, \left(\frac{h_k}{h_1}\right)'\right).\]
+\end{enumerate}
+\end{prop}
+\begin{proof} Statement 1. is basic linear algebra. Statement 2. follows from 1. observing that
+\[W(h_1,\dots,h_k)=h_1^k \,W\left(1, \frac{h_2}{h_1},\dots, \frac{h_k}{h_1}\right)\]
+and expanding the determinant by the first column of the matrix.
+\end{proof}
+
+\begin{thm} Let $h_1,\dots,h_k:I\subseteq\RR\to\RR$ be sufficiently differentiable functions such that $W(h_1,\dots,h_i)$ does not vanish on $I$ for any $i=1,\dots,k$. Then, for any real numbers $a_1,\dots,a_k$ not all zero, the function $f=\sum_{i=1}^k a_ih_i$ has at most $k-1$ roots on $I$, counted with multiplicity.
+\end{thm}
+\begin{proof} By induction on $k$. For $k=1$ the result is obvious since $W(h_1)=h_1$ does not vanish on I.
+Let $k>1$ and consider the result proved for $k'<k$. Call $N_f$ the number of roots of $f$ counted with multiplicity. If $a_2=\dots=a_k=0$, then $f=a_1h_1$ and the result is once again obvious. Suppose then that not all $a_2,\dots a_k$ are zero. As $h_1$ does not vanish on $I$, we have that $N_f=N_g$, where
+\[g=a_1+\sum_{i=2}^k a_i \frac{h_i}{h_1}.\]
+As we proved the last class, we may bound $N_g\leq 1+ N_{g'}$. Now, 
+\[g'=\sum_{i=2}^k a_i \left(\frac{h_i}{h_1}\right),\]
+and 
+\[W\left(\left(\frac{h_2}{h_1}\right)',\dots, \left(\frac{h_i}{h_1}\right)'\right) = \frac{W(h_1,\dots,h_i)}{h_1^i} \]
+and moreover not all of $a_2,\dots, a_n$ are zero, so the claim follows by induction.
+\end{proof}
+
+\begin{ex} Compute the Wronskians for the families $\{x^{b_1},\dots,x^{b_k}\}$ where $b_i\in \NN$ and $\{p_1(x)^{-1},\dots,p_k(x)^{-1}\}$ where $p_i(x)\in \RR[x]$ are of degree 1. Notice that the second Wronskian is highly dependent on the domain and where the roots of the $p_i$ lie.
+\end{ex}
+
+We say that $h_1,\dots,h_k:I\subseteq\RR\to\RR$ with sufficient derivatives satisfy Descartes' rule of signs (or DRS for short) if for any real numbers $a_1,\dots, a_k$ not all zero, then the number of real roots of $\sum_{i=1}^k a_ih_i$ in I counted with multiplicity does not exceed $\sv(a_1,\dots,a_k)$. For example, any set of monomials $x^{b_1},\dots, x^{b_k}$ with $b_1<b_2<\dots<b_k\in\NN$ satisfies the DRS.
+
+\begin{thm} A set of functions $h_1,\dots,h_k:I\subseteq\RR\to\RR$ satisfy the DRS if:
+\begin{enumerate}
+\item for any set of indices $j_1,\dots, j_l\in\{1,\dots,k\}$, the Wronskian $W(h_{j_1},\dots,h_{j_l})$ does not vanish on $I$, and
+\item for any pair of sets of indices $j_1,\dots, j_l$ and $j'_1,\dots, j'_l\in\{1,\dots,k\}$ with $j_1<\dots<j_l$ and $j'_1<\dots<j'_l$, then
+\[W(h_{j_1},\dots,h_{j_l})W(h_{j'_1},\dots,h_{j'_l})>0\]
+on I, that is, they have the same sign.
+\end{enumerate}
+\end{thm}
+
+\begin{ex} Check that both conditions are satisfied for ordered monomials. What can one say about the family $\{p_1(x)^{-1},\dots,p_k(x)^{-1}\}$ with $p_i$s of degree 1? What about a family of functions of the form $x^{b_i}(1+x)^{c_i}$?
+\end{ex}
+
+We will now start studying \emph{systems} of polynomial equations of the form
+\[f_1(x_1,\dots,x_n)=\dots=f_n(x_1,\dots,x_n)=0,\]
+where $f_i\in \CC[x_1,\dots,x_n]$. We will write such a polynomial as $\sum_{a\in \NN_0^n} c_a x^a$ and denote $Q_f$ the \emph{Newton polytope} of $f$, which is defined as the convex hull of the set of points in $\NN_0^n$ in the support of $f$. As usual, we are interested in the number $N$ of solutions to the system, but this time we will start by estimating the number of solutions in $\CC^n$. The most basic bound follows from Bézout's theorem: assuming $N$ is finite, then
+\[N\leq \prod_{i=1}^n \deg(f_i).\]
+This bound, which we will call the \emph{Bézout bound}, is generically sharp if we fix the degrees of the polynomials involved. We will now state a much sharper bound for a more particular situation:
+\begin{thm}[Kouchnirenko] Assume that $f_1,\dots,f_n$ have the same Newton polytope $Q$. The number of solutions counted with multiplicity in $(\CC^\times)^n$ to the system
+\[f_1(x)=\dots=f_n(x)=0,\]
+if finite, is bounded by $\Vol_{\ZZ^n}(Q)$, where $\Vol_{\ZZ^n}(Q) = n! \Vol(Q)$.
+\end{thm}
+\begin{rem} The symbol $\Vol_{\ZZ^n}$ is just a renormalization of the usual euclidean volume, so that the unit $n$-simplex has volume 1. In this way, one easily bounds the number of solutions by cutting up the Newton polytope into unit $n$-simplices and counting the pieces.
+\end{rem}
 \end{document}
