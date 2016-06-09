@@ -85,6 +85,7 @@ stringstyle=\color{orange}}
 \DeclareMathOperator{\Diff}{Diff}
 \DeclareMathOperator{\sv}{signvar}
 \DeclareMathOperator{\Vol}{Vol}
+\DeclareMathOperator{\MV}{MV}
 
 
 \newcommand\claim[2][.8]{%
@@ -101,7 +102,7 @@ stringstyle=\color{orange}}
 
 \theoremstyle{definition}
 \newtheorem{defn}[prop]{Definición}
-\newtheorem{exmp}[prop]{Ejemplo}
+\newtheorem{exmp}[prop]{Example}
 \newtheorem{heur}[prop]{Heurística}
 \newtheorem{obs}[prop]{Observación}
 \newtheorem{coro}[prop]{Corollary}
@@ -201,18 +202,29 @@ Let us start by proving Viro's theorem:
 
 \begin{proof} Let $E_i$ be the line segment $[(a_i,h_i),(a_{i+1},h_{i+1})]$. The segment $E_i$ is the graph of an affine function $y\mapsto \alpha_i y+\beta_i$ on $[a_i,a_{i+1}]$. Then
 \[\frac{f_t(xt^{-\alpha_i})}{t^{\beta_i}}= \sum_{j=1}^s d_j t^{h_j-\alpha_ia_j-\beta_i} x^a_j=d_ix^{a_i}+d_{i+1}x^{a_{i+1}}+p(x,t)\]
-for some rational function $p$ in which $t$ appears with positive exponent in all of its terms. This happens since points of the form $(a_j,h_j)$ are vertices of the lower hull, then, $h_j-\alpha_i a_j-\beta_i > 0$ for all $j\neq i,i+1$, and so a positive power of $t$ appears in all these terms.
+for some rational function $p$ in which $t$ appears with positive exponent in all of its terms. This happens since points of the form $(a_j,h_j)$ are vertices of the lower hull, then, $h_j-\alpha_i a_j-\beta_i > 0$ for all $j\neq i,i+1$, and so a positive power of $t$ appears in all terms.
 
 Let us call $g_i(x) = d_ix^{a_i}+d_{i+1}x^{a_{i+1}}$. By Descartes' rule of signs, we know that $g_i$ has at most one positive, simple root $\rho_i$, and this happens iff $x^{a_{i+1}-a_i} = -d_i/d_{i+1}$ (recall that no $d_j$ vanishes). This obviously happens iff $d_i$ and $d_{i+1}$ have different signs.  If $d_i$ and $d_{i+1}$ have different signs, the existence of the positive root $\rho_i$ of $g_i$ proves the existence of a real, positive root $t^{-\alpha_i}\rho_{i,t}$ of $f_t$ for small enough $t$, since $f_t$ is $g_i$ modulo a small perturbation $p$ and simple roots are stable. Repeating this argument for each $g_i$ we obtain a total of $\sv(d_1,\dots,d_s)$ simple roots.
 
-Consider now a compact set $K$ in $(0,+\infty)$ such that $K$ contains all of the roots $\rho_{i,t}$ and $\rho_i$: for some suitably small $t$, the compact sets $t^{-\alpha_1}K,\dots, t^{-\alpha_s}K$ are disjoint, and since $t^{-\alpha_i}\rho_{i,t}\in t^{-\alpha_i}K$, we know that all of our roots $t^{-\alpha_i}\rho_{i,t}$ of $f_t$ are different. We have thus obtained $\sv(d_1,\dots,d_s)$ roots of $f_t$ and by Descartes' rule of signs we know that there are no more than this.
+Consider now a compact set $K$ in $(0,+\infty)$ such that $K$ contains all of the roots $\rho_{i,t}$ and $\rho_i$: for some suitably small $t$, the compact sets $t^{-\alpha_1}K,\dots, t^{-\alpha_s}K$ are disjoint, and since $t^{-\alpha_i}\rho_{i,t}\in t^{-\alpha_i}K$, we know that all of our roots $t^{-\alpha_i}\rho_{i,t}$ of $f_t$ are different. We have thus obtained $\sv(d_1,\dots,d_s)$ roots of $f_t$ and by Descartes' rule of signs we know that there are no more than these.
 \end{proof}
 
 \begin{rem} If $f(x)=\sum_{i=0}^d c_ix^i$ with $c_d\neq 0$, then if $f$ has $d$ positive roots then all of the coefficients $c_i$ are non-zero, by Descartes' bound.
 \end{rem}
 
-\begin{ex} What can one say if $f$ has $d$ real (not necessarily positive) roots?
+\begin{ex} What can one say if $f$ has $d$ real (not necessarily positive) roots? We say that $f$ is \emph{hyperbolic} in this case.
 \end{ex}
+\begin{proof} Write $f(x)=\sum_{i=1}^s c_{a_i}x^{a_i}$, where $0\leq a_1<\dots<a_s$ and $c_{a_i}\neq 0$. By Descartes' bound applied over $f(x)$ and $f(-x)$, we get that
+\begin{align*}
+n(f)&\leq a_1 + \sv(c_{a_1},\dots,c_{a_s}) + \sv((-1)^{a_1}c_{a_1},\dots,(-1)^{a_s}c_{a_s}) \\
+&=a_1+\sum_{i=1}^{s-1}\underbrace{\left(\sv(c_{a_i},c_{a_{i+1}}) + \sv((-1)^{a_i}c_{a_i},(-1)^{a_{i+1}}c_{a_{i+1}})\right)}_{\substack{\delta_i}}.
+\end{align*}
+
+If $a_{i+1}-a_i$ is odd, then $\delta_i=1$; otherwise it is $0$ if $c_{a_i}c_{a_{i+1}}>0$ or $2$ if $c_{a_i}c_{a_{i+1}}<0$. In all cases, we have that $\delta_i\leq a_{i+1}-a_i$. Therefore,
+\[n(f)\leq a_1+\sum_{i=1}^{s-1} \left(a_{i+1}-a_i\right)=a_s=\deg(f).\]
+Since we know $\deg(f)=n(f)$, all our inequalities are in fact equalities, and so $\delta_i=a_{i+1}-a_i$ for all $i\in\{1,\dots, s-1\}$. Therefore, we can conclude that either $a_{i+1}-a_i$ is odd or $a_{i+1}-a_i$ is even and $c_{a_i}c_{a_{i+1}}<0$ for all $i\in\{1,\dots, s-1\}$.
+
+\end{proof}
 
 Consider now sufficiently differentiable functions $h_1,\dots,h_k:I\subseteq\RR\to\RR$. Their \emph{Wronskian} is defined as
 \[W(f_1,\dots,f_k)=\mathrm{det}\begin{bmatrix} f_1&f_2&\dots&f_k\\f_1'&f_2'&\dots&f_k'\\ \vdots&\vdots&\ddots&\vdots\\ f_1^{(k-1)}&f_2^{(k-1)}&\dots&f_k^{(k-1)}\end{bmatrix}\]
@@ -271,4 +283,62 @@ if finite, is bounded by $\Vol_{\ZZ^n}(Q)$, where $\Vol_{\ZZ^n}(Q) = n! \Vol(Q)$
 \end{thm}
 \begin{rem} The symbol $\Vol_{\ZZ^n}$ is just a renormalization of the usual euclidean volume, so that the unit $n$-simplex has volume 1. In this way, one easily bounds the number of solutions by cutting up the Newton polytope into unit $n$-simplices and counting the pieces.
 \end{rem}
+
+\section{08/06}
+
+We start by giving a finer version of Kouchnirenko's bound. First, we fix some notation. We will be interested in estimating the number $N$ of non-degenerate solutions lying on the complex torus $(\CC^\times)^n$ of a system of $n$ complex polynomials $f_1,\dots,f_n$ in $n$ variables. We write $\mathcal{A}_i$ for the support of $f_i$ and $\mathcal{A}=\bigcup_{i=1}^n\mathcal{A}_i$.
+
+\begin{thm}[Kouchnirenko] The number $N$ of non-degenerate solutions in $(\CC^\times)^n$ to the system $f_1=\dots=f_n=0$ satisfies
+\[N\leq \Vol_{\ZZ^n}(Q),\]
+where $Q$ is the convex hull of $\mathcal{A}$. For a fixed convex polytope $Q$ this bound is generically sharp.
+\end{thm}
+
+\begin{rem} If $Q$ is an $n$-simplex with vertices $a_0,\dots, a_n\in \ZZ^n$, then
+\[\Vol_{\ZZ^n}(Q)=\left|\det(a_1-a_0, \dots, a_n-a_0) \right|.\]
+\end{rem}
+
+\begin{ex} Let $a_0,\dots,a_n$ be the vertices of an $n$-simplex $Q$. Then $\Vol_{\ZZ^n}(Q)=1$ iff the set of vectors $\{a_1-a_0,\dots, a_n-a_0\}$ form a basis of $\ZZ^n$ as an abelian group.
+\end{ex}
+\begin{ex} A triangle $T$ with vertices in $\ZZ^n$ satisfies $\Vol_{\ZZ^2}(T)=1$ iff the set of lattice points $T\cap\ZZ^2$ is exactly the set of vertices of $T$. Is this true for higher dimensional simplices?
+\end{ex}
+
+As we mentioned before, Kouchnirenko's bound is generically sharp for a fixed convex polytope. We now give a sharper bound which depends on knowing the Newton polytope of each of the polynomials involved. First, we need a definition: given convex polytopes $Q_1,\dots,Q_n$, their \emph{mixed volume} $\MV(Q_1,\dots,Q_n)$ is the coefficient of $\lambda_1\dots\lambda_n$ in the polynomial $\Vol(\lambda_1 Q_1+\dots+\lambda_nQ_n)$ divided by $n!$. Here $\lambda_1Q_1+\dots\lambda_nQ_n$ stands for the convex hull of the set $\{\lambda_1 w_1+\dots+\lambda_n w_n:w_i\in Q_i\}$. Notice that this is the usual Euclidean volume: this gives a homogeneous polynomial of degree $n$ in the variables $\lambda_1,\dots,\lambda_n$.
+
+\begin{thm}[Bernstein] The number $N$ of non-degenerate solutions in $(\CC^\times)^n$ to the system $f_1=\dots=f_n=0$ satisfies
+\[N\leq \MV(Q_1,\dots,Q_n),\]
+where $Q_i$ denotes the Newton polytope of $f_i$. For fixed polytopes $Q_1,\dots,Q_n$ this bound is generically sharp.
+\end{thm}
+
+The definition of the mixed volume is not very useful for computation, but we have the following equivalence:
+\begin{prop} If $Q_1,\dots,Q_n$ are convex polytopes, then
+\[n! \MV(Q_1,\dots,Q_n)=\sum_{\emptyset\neq I\subseteq\{1,\dots,n\}}(-1)^{\#I}\Vol\left(\sum_{i\in I} Q_i\right)\]
+\end{prop}
+
+This last proposition not only gives a computationally effective way to calculate the mixed volume, but also proves that it is translation invariant, since the usual Euclidean volume is.
+
+\begin{exmp} Let $Q_i$ be the 2-simplices of vertices $(0,0)$, $(0,d_i)$ and $(d_i,0)$ for $i\in\{1,2\}$. Then
+\[2 \MV(Q_1,Q_2) = \Vol(Q_1+Q_2)-\Vol(Q_1)-\Vol(Q_2) = \frac{(d_1+d_2)^2}{2} -\frac{d_1^2}2-\frac{d_2^2}2=d_1d_2,\]
+so $\MV(Q_1,Q_2)=\frac{d_1d_2}2$.
+\end{exmp}
+
+\begin{prop} The map $(Q_1,\dots,Q_n)\mapsto \MV(Q_1,\dots,Q_n)$ is non-negative and increasing, in the sense that if $Q'_i\subseteq Q_i$ for all $i\in\{1,\dots,n\}$, then $\MV(Q'_1,\dots,Q'_n)\leq\MV(Q_1,\dots,Q_n)$.
+\end{prop}
+
+\begin{coro} Bernstein's bound is sharper than Kouchniernko's, since $\MV(Q_1,\dots,Q_n)\leq \Vol_{\ZZ^n}(Q)$, where $Q$ denotes the convex hull of the union of the Newton polytopes $Q_1,\dots,Q_n$.
+\end{coro}
+\begin{proof} By monotony we know that $\MV(Q_1,\dots,Q_n)\leq \MV(Q,\dots,Q)$. But then $n! \MV(Q,\dots,Q)$ is the coefficient of $\lambda_1\dots\lambda_n$ in the polynomial
+\begin{align*}
+\Vol(\lambda_1Q+\dots+\lambda_nQ) &= \Vol((\lambda_1+\dots+\lambda_n)Q)\\
+&=(\lambda_1+\dots+\lambda_n)^n\Vol(Q)\\
+&=\left(\sum_{\sum k_i=n} \binom{n}{k_1,\dots, k_n}\lambda_1^{k_1}\dots\lambda_n^{k_n}\right) \Vol(Q)\\
+&=n!\Vol(Q)
+\end{align*}
+Therefore $\MV(Q_1,\dots,Q_n)\leq \MV(Q,\dots,Q) = \Vol(Q) \leq n! \Vol(Q)=\Vol_{\ZZ^n}(Q)$, as we wanted.
+\end{proof}
+
+The mixed volume may be computed by counting lattice points as well:
+\begin{prop} If $Q_1,\dots,Q_n$ are convex polytopes, then
+\[n! \MV(Q_1,\dots,Q_n)=\sum_{I\subseteq\{1,\dots,n\}}(-1)^{\#I}\,\#\!\left(\ZZ^n\cap\sum_{i\in I}Q_i\right),\]
+with the convention that for $I=\emptyset$, we set $\#\!\left(\ZZ^n\cap\sum_{i\in I}Q_i\right)=1$.
+\end{prop}
 \end{document}
